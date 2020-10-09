@@ -1,7 +1,7 @@
 
 export default {
   // 存储值
-  saveST (id, key, value) {
+  saveItem (id, key, value) {
     const item = this.getAll()
     if (!item) {
       item[id] = {}
@@ -26,5 +26,14 @@ export default {
   },
   getAll () {
     return JSON.parse(window.sessionStorage.getItem('mall') || '{}')
+  },
+  clearItem (id, key) {
+    const item = this.getAll()
+    if (key) {
+      delete item[id][key]
+    } else {
+      delete item[id]
+    }
+    window.sessionStorage.setItem('mall', JSON.stringify(item))
   }
 }
