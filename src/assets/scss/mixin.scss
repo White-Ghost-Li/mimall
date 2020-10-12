@@ -1,0 +1,7 @@
+@mixin bgimg($w: 0, $h: 0, $img: '', $c: contain){
+  display: inline-block;
+  width: $w;
+  height: $h;
+  background: url($img) no-repeat center;
+  background-size: $c;
+}

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <p>home</p>
     <nav-header></nav-header>
     <router-view></router-view>
     <nav-footer></nav-footer>
@@ -14,7 +13,6 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
     }
   },
   components: {
