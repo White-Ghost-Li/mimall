@@ -39,7 +39,7 @@
                 <li class="product" v-for="(item,index) in productList" :key="index">
                   <a :href="'/#/product/'+item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.src">
+                      <img :src="item.src" :alt="item.id">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price | currency}}</div>
@@ -84,7 +84,7 @@ export default {
     }
   },
   mounted () {
-    this.getProductList()
+    // this.getProductList()
   },
   methods: {
     login () {
@@ -196,6 +196,7 @@ export default {
             }
           }
           .children{
+            background-color: #ffffff;
             position: absolute;
             z-index: 10;
             top: 112px;
@@ -205,7 +206,7 @@ export default {
             opacity: 0;                 //透明度
             overflow: hidden;           //默认隐藏掉
             border-top: 1px solid #E5E5E5;
-            box-shadow: 0px 7px 6px 0px rgba(0,0,0,0.11);
+            box-shadow: 0 7px 6px 0 rgba(0,0,0,0.11);
             transition: all .5s;       //动画
             .product{
               float: left;
