@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 import router from './router'
 
 // 根据前端的跨域方式做调整
@@ -23,6 +24,9 @@ axios.interceptors.response.use((response) => {
 })
 
 Vue.use(VueAxios, axios)
+Vue.use(VueLazyLoad, {
+  loading: require('./assets/imgs/loading-svg/loading-spinning-bubbles.svg')
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
