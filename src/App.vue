@@ -6,7 +6,23 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted () {
+    this.getUserInfo()
+    this.getCartSum()
+  },
+  methods: {
+    getUserInfo () {
+      this.axios.get('/user').then(() => {
+
+      })
+    },
+    getCartSum () {
+      this.axios.get('/carts/products/sum').then(() => {
+
+      })
+    }
+  }
 }
 </script>
 

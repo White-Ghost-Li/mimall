@@ -9,7 +9,7 @@
               <div class="children">
                 <ul v-for="(list, index) in childList" :key="index">
                   <li v-for="(item, ind) in list" :key="ind">
-                    <a :href="'/#/product/'+item.id">
+                    <a :href="'/product/'+item.id">
                       <img :src="item.img" alt="item.name">
                       {{item.name}}
                     </a>
@@ -21,7 +21,7 @@
         </div>
         <swiper class="swiper-container" :options="swiperOption">
           <swiper-slide v-for="(item,index) in slideList" :key="index">
-            <a :href="'/#/product/'+item.id"><img :src="item.img" :alt="item.id"></a>
+            <a :href="'/product/'+item.id"><img :src="item.img" :alt="item.id"></a>
           </swiper-slide>
           <div class="swiper-scrollbar" slot="scrollbar"></div>
           <div class="swiper-pagination"  slot="pagination"></div>
@@ -30,12 +30,12 @@
         </swiper>
       </div>
       <div class="ads-box">
-        <a :href="'/#/product/'+item.id" v-for="(item, index) in adsList" :key="index">
+        <a :href="'/product/'+item.id" v-for="(item, index) in adsList" :key="index">
           <img v-lazy="item.img" alt="item.id">
         </a>
       </div>
       <div class="banner">
-        <a href="/#/product/50">
+        <a href="/product/50">
           <img v-lazy="require('../assets/imgs/banner-1.png')" alt="banner">
         </a>
       </div>
@@ -43,7 +43,7 @@
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
-            <a href="/#/product/60">
+            <a href="/product/60">
               <img v-lazy="require('../assets/imgs/mix-alpha.jpg')" alt="60">
             </a>
           </div>
@@ -66,7 +66,7 @@
       </div>
     </div>
     <service-bar></service-bar>
-    <Modal modal-type="samll"
+    <Modal modal-type="small"
            title="提示"
            btn-type="1"
            sure-btn="查看购物车"
@@ -320,7 +320,15 @@ export default {
     SwiperSlide,
     Modal
   },
+  mounted () {
+    // this.getHeaderProduct()
+  },
   methods: {
+    // getHeaderProduct () {
+    //   this.axios.get('/productList').then((res) => {
+    //     console.log(res)
+    //   })
+    // },
     goToCart () {
       this.showModal = true
     },
@@ -347,7 +355,7 @@ export default {
           position: absolute;
           width: 264px;
           height: 451px;
-          z-index: 10;
+          z-index: 9;
           padding: 26px 0;
           background-color: #6666667a;
           box-sizing: border-box;

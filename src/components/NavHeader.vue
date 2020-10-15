@@ -1,45 +1,46 @@
 <template>
   <div class="header">
-    <div class="nav-topbar">
+    <div class="nav-top-bar">
       <div class="container">
-        <div class="topbar-menu">
-          <a href="JavaScript:;">小米商城</a> |
-          <a href="JavaScript:;">MIUI</a> |
-          <a href="JavaScript:;">IoT</a> |
-          <a href="JavaScript:;">云服务</a> |
-          <a href="JavaScript:;">金融</a> |
-          <a href="JavaScript:;">有品</a> |
-          <a href="JavaScript:;">小爱开放平台</a> |
-          <a href="JavaScript:;">企业团购</a> |
-          <a href="JavaScript:;">资质证照</a> |
-          <a href="JavaScript:;">协议规则</a> |
-          <a href="JavaScript:;">下载app</a> |
-          <a href="JavaScript:;">智能生活</a> |
-          <a href="JavaScript:;">Select Location</a>
+        <div class="top-bar-menu">
+          <a href="JavaScript:">小米商城</a> |
+          <a href="JavaScript:">MIUI</a> |
+          <a href="JavaScript:">IoT</a> |
+          <a href="JavaScript:">云服务</a> |
+          <a href="JavaScript:">金融</a> |
+          <a href="JavaScript:">有品</a> |
+          <a href="JavaScript:">小爱开放平台</a> |
+          <a href="JavaScript:">企业团购</a> |
+          <a href="JavaScript:">资质证照</a> |
+          <a href="JavaScript:">协议规则</a> |
+          <a href="JavaScript:">下载app</a> |
+          <a href="JavaScript:">智能生活</a> |
+          <a href="JavaScript:">Select Location</a>
         </div>
-        <div class="topbar-user">
-          <a href="JavaScript:;" v-if="userName">{{userName}} |</a>
-          <a href="JavaScript:;" v-if="!userName" @click="login">登陆 |</a>
-          <a href="JavaScript:;" v-show="!userName">注册 |</a>
-          <a href="JavaScript:;">消息通知 |</a>
-          <a href="JavaScript:;" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车</a>
+        <div class="top-bar-user">
+          <a href="JavaScript:" v-if="userName">{{userName}} |</a>
+          <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
+          <a href="JavaScript:" v-show="!userName">注册 |</a>
+          <a href="JavaScript:">消息通知 |</a>
+          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车</a>
         </div>
       </div>
     </div>
     <div class="nav-header">
       <div class="container">
         <div class="header-logo">
-          <a href="/#/index"></a>
+          <a href="/index"></a>
         </div>
         <div class="header-menu">
-          <div class="item-menu">
-            <span>小米手机</span>
+          <div class="item-menu" v-for="(product, i) in headerProduct" :key="i" v-if="headerProduct">
+            <span>{{product.name}}</span>
             <div class="children">
               <ul>
-                <li class="product" v-for="(item,index) in productList" :key="index">
-                  <a :href="'/#/product/'+item.id" target="_blank">
+                <li class="product" v-for="(item, j) in product.children" :key="j">
+                  <a :href="'/product/'+item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.src" :alt="item.id">
+<!--                      <img :src="item.img" :alt="item.productId">-->
+                      <img src="require('../assets/imgs/nav-img/'+item.img)" :alt="item.id">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price | currency}}</div>
@@ -48,19 +49,11 @@
               </ul>
             </div>
           </div>
-          <div class="item-menu">
-            <span>红米</span>
-            <div class="children"></div>
-          </div>
-          <div class="item-menu">
-            <span>电视</span>
-            <div class="children"></div>
-          </div>
         </div>
         <div class="header-search">
           <div class="wrapper">
             <input type="text" name="keyword">
-            <a href="javascript:;"></a>
+            <a href="javascript:"></a>
           </div>
         </div>
       </div>
@@ -73,14 +66,14 @@ export default {
   name: 'NavHeader',
   data () {
     return {
-      userName: 'L',
-      productList: []
+      userName: '',
+      headerProduct: []
     }
   },
   filters: {
     currency (val) {
       if (!val) return '0.00'
-      return '￥' + val.toFixed(2) + '元'
+      return '￥' + val + '元'
     }
   },
   mounted () {
@@ -90,16 +83,11 @@ export default {
     login () {
       this.$router.push('/login')
     },
-    getProductList () {
-      this.axios.get('/api/product', {
-        params: {
-          userName: this.userName,
-          phoneId: 6
-        }
-      }).then((res) => {
-        this.productList = res.list.slice(0, 6)
-      })
-    },
+    // getProductList () {
+    //   this.axios.get('/headerProduct').then((res) => {
+    //     this.headerProduct = res
+    //   })
+    // },
     goToCart () {
       this.$router.push('/cart')
     }
@@ -110,7 +98,7 @@ export default {
 <style lang="scss">
 @import "../assets/scss/mixin";
 .header{
-  .nav-topbar{
+  .nav-top-bar{
     height: 39px;
     line-height: 39px;
     background-color: #333333;
@@ -132,6 +120,7 @@ export default {
         background-color: #FF6600;
         color: white;
         text-align: center;
+        margin-right: 0;
         .icon-cart{
           @include bgimg(18px, 14px, "../assets/imgs/icon-cart.png");
           margin-right: 4px;

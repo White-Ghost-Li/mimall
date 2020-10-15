@@ -5,6 +5,7 @@ import App from './App'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 import router from './router'
 
 // 根据前端的跨域方式做调整
@@ -16,14 +17,18 @@ axios.interceptors.response.use((response) => {
   let res = response.data
   if (res.status === 0) {
     return res.data
-  } else if (response.status === 10) {
-    window.location.href = '/#/login'
+  } else if (res.status === 10) {
+    if (location.pathname !== '/login') {
+      window.location.href = '/login'
+    }
   } else {
-    alert(res.msg)
+    alert(res.message)
+    return Promise.reject(res)
   }
 })
 
 Vue.use(VueAxios, axios)
+Vue.use(VueCookie)
 Vue.use(VueLazyLoad, {
   loading: require('./assets/imgs/loading-svg/loading-spinning-bubbles.svg')
 })

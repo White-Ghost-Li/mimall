@@ -31,3 +31,8 @@
   border: none;
   cursor: pointer;
 }
+@mixin input(){
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+}

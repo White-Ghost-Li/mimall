@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/pages/Home'
 import Product from '@/pages/product'
 import Index from '@/pages/index'
+import Login from '@/pages/login'
 import Detail from '@/pages/detail'
 import Cart from '@/pages/cart'
 import Order from '@/pages/order'
@@ -13,6 +14,7 @@ import AliPay from '@/pages/alipay'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -36,6 +38,11 @@ export default new Router({
           component: Detail
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/cart',

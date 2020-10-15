@@ -1,0 +1,109 @@
+{
+  "headerProduct": [
+    {
+      "id": "header001",
+      "name": "小米手机",
+      "children": [
+        {
+          "id": "1001",
+          "img": "nav-1.png",
+          "name": "小米10至尊纪念版",
+          "price": "5299.00"
+        },
+        {
+          "id": "1002",
+          "img": "nav-2.png",
+          "name": "小米10Pro",
+          "price": "4999.00"
+        },
+        {
+          "id": "1003",
+          "img": "../assets/imgs/nav-ing/nav-3.png",
+          "name": "小米10",
+          "price": "3799.00"
+        },
+        {
+          "id": "1004",
+          "img": "../assets/imgs/nav-ing/nav-4.png",
+          "name": "小米10青春版5G",
+          "price": "1899.00"
+        },
+        {
+          "id": "1005",
+          "img": "../assets/imgs/nav-ing/nav-5.png",
+          "name": "小米MIX Alpha",
+          "price": "1999.00"
+        },
+        {
+          "id": "1006",
+          "img": "../assets/imgs/nav-ing/nav-6.png",
+          "name": "腾讯黑鲨游戏手机",
+          "price": "3999.00"
+        }
+      ]
+    },
+    {
+      "id": "header002",
+      "name": "电视",
+      "children": [
+        {
+          "id": "2001",
+          "img": "../assets/imgs/nav-ing/nav-3-1.jpg",
+          "name": "小米电视大师82至尊纪念版",
+          "price": "49999.00"
+        },
+        {
+          "id": "2002",
+          "img": "../assets/imgs/nav-ing/nav-3-2.jpg",
+          "name": "小米电视大师82英寸",
+          "price": "9999.00"
+        },
+        {
+          "id": "2003",
+          "img": "../assets/imgs/nav-ing/nav-3-3.png",
+          "name": "小米透明电视",
+          "price": "49999.00"
+        },
+        {
+        "id": "2004",
+        "img": "../assets/imgs/nav-ing/nav-3-4.jpg",
+        "name": "小米电视大师65英寸",
+        "price": "12999.00"
+        },
+        {
+          "id": "2005",
+          "img": "../assets/imgs/nav-ing/nav-3-5.jpg",
+          "name": "小米智能电视MAX 98",
+          "price": "19999.00"
+        },
+        {
+          "id": "2006",
+          "img": "../assets/imgs/nav-ing/nav-3-6.png",
+          "name": "小米电视4A 60英寸",
+          "price": "2388.00"
+        }
+      ]
+    },
+    {
+      "id": "header001",
+      "name": "笔记本",
+      "children": [{
+        "id": "3001",
+        "img": "/imgs/item-box-3.jpg",
+        "name": "小米游戏本",
+        "price": "5299.00"
+      }]
+    }
+  ],
+  "login": {
+    "id": 789,
+    "username": "L",
+    "password": "123",
+    "email": "whterghostL@163.com",
+    "phone": null,
+    "role": 0,
+    "createTime": 1479048325000,
+    "updateTime": 1479048325000
+  }
+
+}
