@@ -22,7 +22,7 @@
           <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
           <a href="JavaScript:" v-show="!userName">注册 |</a>
           <a href="JavaScript:">消息通知 |</a>
-          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车</a>
+          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.sum}})</a>
         </div>
       </div>
     </div>
@@ -62,13 +62,17 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'NavHeader',
   data () {
     return {
-      userName: '',
+      // userName: this.$store.state.userName,
       headerProduct: []
     }
+  },
+  computed: {
+    ...mapState(['userName', 'cart'])
   },
   filters: {
     currency (val) {

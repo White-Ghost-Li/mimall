@@ -52,6 +52,7 @@ export default {
         password
       }).then((res) => {
         this.$cookie.set('userInfo', res, {expires: '1M'})
+        this.$store.dispatch('saveUserName', userName)
         this.$router.push('/index')
       })
     },
@@ -85,6 +86,7 @@ export default {
       background: url("../assets/imgs/login-bg.jpg") no-repeat center;
       .container{
         height: 576px;
+        position: relative;
         .login-form{
           box-sizing: border-box;
           padding-left: 31px;

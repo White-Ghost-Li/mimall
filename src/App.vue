@@ -13,13 +13,14 @@ export default {
   },
   methods: {
     getUserInfo () {
-      this.axios.get('/user').then(() => {
-
+      this.axios.get('/user').then((res) => {
+        const userName = res.userName
+        this.$store.dispatch('saveUserName', userName)
       })
     },
     getCartSum () {
-      this.axios.get('/carts/products/sum').then(() => {
-
+      this.axios.get('/carts/products/sum').then((res) => {
+        this.$store.dispatch('getCartSum', res)
       })
     }
   }

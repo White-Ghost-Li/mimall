@@ -36,3 +36,8 @@
   box-sizing: border-box;
   font-size: 14px;
 }
+@mixin flex($hov:space-between,$col:center){
+  display: flex;
+  justify-content: $hov;
+  align-items: $col;
+}
