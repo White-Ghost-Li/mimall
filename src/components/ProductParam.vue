@@ -1,5 +1,5 @@
 <template>
-  <div class="product-param">
+  <div class="product-param" :class="{'is_fixed': isFixed}">
     <div class="container">
       <div class="pro-title">
         <span>{{productName}}</span>
@@ -17,7 +17,24 @@
 <script>
 export default {
   name: 'ProductParam',
-  props: ['productName']
+  props: {productName: String},
+  data () {
+    return {
+      isFixed: false
+    }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.initHeight)
+  },
+  methods: {
+    initHeight () {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      this.isFixed = (scrollTop > 152)
+    }
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.initHeight, false)
+  }
 }
 </script>
 
@@ -27,6 +44,13 @@ export default {
     height: 70px;
     line-height: 70px;
     border: 1px solid #E5E5E5;
+    background-color: #ffffff;
+    &.is_fixed{
+      position: fixed;
+      top: 0;
+      width: 100%;
+      box-shadow: 0 5px 5px #cccccc;
+    }
     .container{
       @include flex();
       .pro-title {

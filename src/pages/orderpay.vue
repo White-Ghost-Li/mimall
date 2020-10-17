@@ -1,13 +1,16 @@
 <template>
-  <div>orderpay</div>
+  <div class="order-pay">
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'orderpay'
+  name: 'order-pay'
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+@import '../assets/scss/mixin';
+  .order-pay{
+  }
 </style>

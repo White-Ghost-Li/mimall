@@ -19,7 +19,7 @@ axios.interceptors.response.use((response) => {
   if (res.status === 0) {
     return res.data
   } else if (res.status === 10) {
-    if (location.pathname !== '/login') {
+    if (location.pathname !== '/login' && location.pathname !== '/index') {
       window.location.href = '/login'
     }
   } else {

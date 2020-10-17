@@ -49,5 +49,10 @@ router.get('/carts/products/sum', (req, res) => {
   }
   res.json(reqData)
 })
+router.get('/products/:id', (req, res) => {
+  console.log('进入products/id')
+  reqData.data = db.product
+  res.json(reqData)
+})
 
 module.exports = router

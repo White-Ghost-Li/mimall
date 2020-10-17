@@ -104,6 +104,20 @@
     "role": 0,
     "createTime": 1479048325000,
     "updateTime": 1479048325000
+  },
+  "product": {
+    "id": 2,
+    "categoryId": 2,
+    "name": "oppo R8",
+    "subtitle": "oppo促销进行中",
+    "mainImage": "mainimage.jpg",
+    "subImages": "[\"mmall/aa.jpg\",\"mmall/bb.jpg\",\"mmall/cc.jpg\",\"mmall/dd.jpg\",\"mmall/ee.jpg\"]",
+    "detail": "richtext",
+    "price": 2999.11,
+    "stock": 71,
+    "status": 1,
+    "createTime": "2016-11-20 14:21:53",
+    "updateTime": "2016-11-20 14:21:53"
   }
 
 }
