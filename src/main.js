@@ -19,8 +19,11 @@ axios.interceptors.response.use((response) => {
   if (res.status === 0) {
     return res.data
   } else if (res.status === 10) {
-    if (location.pathname !== '/login' && location.pathname !== '/index') {
+    const path = location.pathname
+    const pathUrl = path.split('/')[1]
+    if (pathUrl !== 'login' && pathUrl !== 'index' && pathUrl !== 'detail' && pathUrl !== 'product') {
       window.location.href = '/login'
+      return Promise.reject(res)
     }
   } else {
     alert(res.message)

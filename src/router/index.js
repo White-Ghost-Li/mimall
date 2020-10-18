@@ -9,6 +9,7 @@ import Cart from '@/pages/cart'
 import Order from '@/pages/order'
 import List from '@/pages/list'
 import OrderPay from '@/pages/orderpay'
+import Confirm from '@/pages/confirm'
 import AliPay from '@/pages/alipay'
 
 Vue.use(Router)
@@ -63,6 +64,11 @@ export default new Router({
           path: 'pay',
           name: 'order-pay',
           component: OrderPay
+        },
+        {
+          path: 'confirm',
+          name: 'confirm',
+          component: Confirm
         },
         {
           path: 'alipay',

@@ -1,15 +1,19 @@
 
-import Vue from 'vue'
+// import Vue from 'vue'
 export default {
   saveUserName (state, userName) {
     state.userName = userName
   },
   getCartSum (state, sum) {
-    const cart = state.cart
-    if (!cart.sum) {
-      Vue.set(cart, 'sum', sum)
-    } else {
-      state.cart.sum = sum
-    }
+    // const cart = state.cart
+    // if (!cart.sum) {
+    //   Vue.set(cart, 'sum', sum)
+    // } else {
+    //   state.cart.sum = sum
+    // }
+    state.cartNum = sum
+  },
+  saveCart (state, cart) {
+    state.cart = cart
   }
 }

@@ -28,9 +28,7 @@
     </div>
     <div class="nav-header">
       <div class="container">
-        <div class="header-logo">
-          <a href="/index"></a>
-        </div>
+        <logo></logo>
         <div class="header-menu">
           <div class="item-menu" v-for="(product, i) in headerProduct" :key="i" v-if="headerProduct">
             <span>{{product.name}}</span>
@@ -63,8 +61,13 @@
 
 <script>
 import {mapState} from 'vuex'
+import Logo from './Logo'
+
 export default {
   name: 'NavHeader',
+  components: {
+    Logo
+  },
   data () {
     return {
       // userName: this.$store.state.userName,
@@ -143,30 +146,30 @@ export default {
       height: 112px;
       justify-content: space-between;
       align-items: center;
-      .header-logo{
-        display: inline-block;
-        width: 55px;
-        height: 55px;
-        background-color: #FF6600;
-        a{
-          display: inline-block;
-          width: 110px;
-          height: 55px;
-          &:before{
-            content: ' ';
-            @include bgimg(55px, 55px, "../assets/imgs/mi-logo.png");
-            transition: margin .3s;
-          }
-          &:after{
-            content: ' ';
-            @include bgimg(55px, 55px, "../assets/imgs/mi-home.png");
-          }
-          &:hover:before{
-            margin-left: -55px;
-            transition: margin .3s;
-          }
-        }
-      }
+      //.header-logo{
+      //  display: inline-block;
+      //  width: 55px;
+      //  height: 55px;
+      //  background-color: #FF6600;
+      //  a{
+      //    display: inline-block;
+      //    width: 110px;
+      //    height: 55px;
+      //    &:before{
+      //      content: ' ';
+      //      @include bgimg(55px, 55px, "../assets/imgs/mi-logo.png");
+      //      transition: margin .3s;
+      //    }
+      //    &:after{
+      //      content: ' ';
+      //      @include bgimg(55px, 55px, "../assets/imgs/mi-home.png");
+      //    }
+      //    &:hover:before{
+      //      margin-left: -55px;
+      //      transition: margin .3s;
+      //    }
+      //  }
+      //}
       .header-menu{
         display: inline-block;
         width: 643px;

@@ -47,6 +47,7 @@
 
 <script>
 import ProductParam from '../components/ProductParam'
+import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
 export default {
   name: 'product',
   data () {
@@ -54,6 +55,7 @@ export default {
       swiperOption: {
         autoplay: true,
         slidesPerView: 3,
+        loop: true,
         spaceBetween: 30,
         freeMode: true
       },
@@ -84,7 +86,9 @@ export default {
     }
   },
   components: {
-    ProductParam
+    ProductParam,
+    Swiper,
+    SwiperSlide
   }
 }
 </script>
@@ -141,14 +145,13 @@ export default {
       }
       .item-swiper{
         margin: 36px auto 52px;
-        height: 300px;
         .desc{
           font-size: 18px;
           color: #333333;
           text-align: center;
         }
         img{
-          width: 25%;
+          width: 100%;
         }
       }
       .item-video{

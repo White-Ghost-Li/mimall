@@ -1,13 +1,71 @@
 <template>
-  <div>orderHeader</div>
+  <div class="order-header">
+    <div class="container clearfix">
+      <logo></logo>
+      <div class="title">
+        <h2>{{title}}<slot name="tip"></slot></h2>
+      </div>
+      <div class="username">
+        <a href="/person">{{userName}}</a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import Logo from './Logo'
+import {mapState} from 'vuex'
 export default {
-  name: 'OrderHeader'
+  name: 'OrderHeader',
+  props: {
+    title: String
+  },
+  computed: {
+    ...mapState(['userName'])
+  },
+  components: {
+    Logo
+  }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.clearfix:before,.clearfix:after{
+  content: '';
+  display: table;
+}
+.clearfix:after{
+  clear: both;
+}
+.order-header{
+  padding: 30px 0;
+  .logo{
+    float: left;
+  }
+  .title,.username{
+    display: inline-block;
+    height: 55px;
+    line-height: 55px;
+  }
+  .title{
+    font-size: 28px;
+    float: left;
+    color: #333333;
+    font-weight: bold;
+    margin-left: 54px;
+    span{
+      font-size: 14px;
+      margin-left: 17px;
+      color: #999999;
+      font-weight: bold;
+    }
+  }
+  .username{
+    float: right;
+    a{
+      color: #666666;
+      font-size: 16px;
+    }
+  }
+}
 </style>

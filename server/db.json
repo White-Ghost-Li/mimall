@@ -114,10 +114,115 @@
     "subImages": "[\"mmall/aa.jpg\",\"mmall/bb.jpg\",\"mmall/cc.jpg\",\"mmall/dd.jpg\",\"mmall/ee.jpg\"]",
     "detail": "richtext",
     "price": 2999.11,
+    "oldPrice": 1999.11,
     "stock": 71,
     "status": 1,
     "createTime": "2016-11-20 14:21:53",
     "updateTime": "2016-11-20 14:21:53"
+  },
+  "carts": {
+    "cartProductVoList": [
+      {
+        "id": 1,
+        "userId": 13,
+        "productId": 1,
+        "quantity": 12,
+        "productName": "iphone7",
+        "productSubtitle": "双十一促销",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 7199.22,
+        "productStatus": 1,
+        "productTotalPrice": 86390.64,
+        "productStock": 86,
+        "productSelected": true
+      },
+      {
+        "id": 2,
+        "userId": 13,
+        "productId": 2,
+        "quantity": 1,
+        "productName": "oppo R8",
+        "productSubtitle": "oppo促销进行中",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 2999.11,
+        "productStatus": 1,
+        "productTotalPrice": 2999.11,
+        "productStock": 86,
+        "productSelected": true
+      }
+    ],
+    "selectedAll": true,
+    "cartTotalPrice": 89389.75,
+    "cartTotalQuantity": 2
+  },
+  "cartsUnSelectAll": {
+    "cartProductVoList": [
+      {
+        "id": 1,
+        "userId": 13,
+        "productId": 1,
+        "quantity": 12,
+        "productName": "iphone7",
+        "productSubtitle": "双十一促销",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 7199.22,
+        "productStatus": 1,
+        "productTotalPrice": 86390.64,
+        "productStock": 86,
+        "productSelected": false
+      },
+      {
+        "id": 2,
+        "userId": 13,
+        "productId": 2,
+        "quantity": 1,
+        "productName": "oppo R8",
+        "productSubtitle": "oppo促销进行中",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 2999.11,
+        "productStatus": 1,
+        "productTotalPrice": 2999.11,
+        "productStock": 86,
+        "productSelected": false
+      }
+    ],
+    "selectedAll": false,
+    "cartTotalPrice": 0,
+    "cartTotalQuantity": 0
+  },
+  "cartsSelectAll": {
+    "cartProductVoList": [
+      {
+        "id": 1,
+        "userId": 13,
+        "productId": 1,
+        "quantity": 12,
+        "productName": "iphone7",
+        "productSubtitle": "双十一促销",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 7199.22,
+        "productStatus": 1,
+        "productTotalPrice": 86390.64,
+        "productStock": 86,
+        "productSelected": true
+      },
+      {
+        "id": 2,
+        "userId": 13,
+        "productId": 2,
+        "quantity": 1,
+        "productName": "oppo R8",
+        "productSubtitle": "oppo促销进行中",
+        "productMainImage": "item-box-3.jpg",
+        "productPrice": 2999.11,
+        "productStatus": 1,
+        "productTotalPrice": 2999.11,
+        "productStock": 86,
+        "productSelected": true
+      }
+    ],
+    "selectedAll": true,
+    "cartTotalPrice": 89389.75,
+    "cartTotalQuantity": 2
   }
-
 }

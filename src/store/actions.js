@@ -5,5 +5,8 @@ export default {
   },
   getCartSum (context, sum) {
     context.commit('getCartSum', sum)
+  },
+  saveCart (context, cart) {
+    context.commit('saveCart', cart)
   }
 }

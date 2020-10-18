@@ -54,5 +54,33 @@ router.get('/products/:id', (req, res) => {
   reqData.data = db.product
   res.json(reqData)
 })
-
+router.post('/carts', (req, res) => {
+  console.log('进入购物添加商品cart')
+  const productId = req.body.productId
+  const selected = req.body.selected
+  if (productId && selected) {
+    reqData.data = db.carts
+  } else {
+    reqData.status = 2
+    reqData.message = '购物车添加失败'
+  }
+  res.json(reqData)
+})
+router.get('/carts', (req, res) => {
+  console.log('进入购物车列表carts')
+  reqData.data = db.carts
+  res.json(reqData)
+})
+router.put('/carts/unSelectAll', (req, res) => {
+  console.log('进入全不选')
+  reqData.data = db.cartsUnSelectAll
+  res.json(reqData)
+})
+router.put('/carts/selectAll', (req, res) => {
+  console.log('进入全选')
+  reqData.data = db.cartsSelectAll
+  res.json(reqData)
+})
+router.put('/carts/:productId')
+router.delete('/carts/:productId')
 module.exports = router
