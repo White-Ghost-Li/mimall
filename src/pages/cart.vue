@@ -62,6 +62,7 @@ import OrderHeader from '../components/OrderHeader'
 import NavFooter from '../components/NavFooter'
 import ServiceBar from '../components/ServiceBar'
 import {mapState, mapGetters} from 'vuex'
+
 export default {
   name: 'cart',
   data () {
@@ -84,13 +85,13 @@ export default {
   methods: {
     getCartList () {
       this.axios.get('/carts').then((res) => {
-        console.log(res)
         this.renderData(res)
       })
     },
     checkedAll () {
-      const url = this.allChecked ? '/carts/unSelectAll' : '/carts/selectAll'
-      this.axios.put(url).then((res) => {
+      this.axios.put('/carts/ifSelect', {
+        selected: !this.allChecked
+      }).then((res) => {
         this.renderData(res)
       })
     },
@@ -99,38 +100,39 @@ export default {
       this.$store.dispatch('saveCart', res.cartList)
     },
     updateCartSomeOne (item, type) {
-    //   let quantity = item.quantity
-    //   let selected = item.selected
-    //   if (type === '-') {
-    //     if (quantity === 1) {
-    //       alert('客官，真的不能再少了，再少就没了')
-    //       return
-    //     }
-    //     --quantity
-    //   } else if (type === '+') {
-    //     // if (quantity > item.productStock) {
-    //     //   alert('客官，已经超额了，我们没有辣么多')
-    //     //   return
-    //     // }
-    //     ++quantity
-    //   } else {
-    //     selected = !item.selected
-    //   }
-    //   this.axios.put(`/carts/${item.productId}`, {
-    //     quantity,
-    //     selected
-    //   }).then((res) => {
-    //     this.renderData(res)
-    //   })
+      let quantity = item.quantity
+      let selected = item.selected
+      if (type === '-') {
+        if (quantity === 1) {
+          this.$message.warning('客官，真的不能再少了，再少就没了')
+          return
+        }
+        --quantity
+      } else if (type === '+') {
+        // if (quantity > item.productStock) {
+        //   alert('客官，已经超额了，我们没有辣么多')
+        //   return
+        // }
+        ++quantity
+      } else {
+        selected = !item.selected
+      }
+      this.axios.put(`/carts/${item.productId}`, {
+        quantity,
+        selected
+      }).then((res) => {
+        this.renderData(res)
+      })
     },
     delProduct (item) {
-    //   this.axios.delete(`/carts/${item.productId}`).then((res) => {
-    //     this.renderData(res)
-    //   })
+      this.axios.delete(`/carts/${item.productId}`).then((res) => {
+        this.$message.success('删除成功')
+        this.renderData(res)
+      })
     },
     goOrder () {
       if (this.checkedNum === 0) {
-        alert('客官这是玩笑了，您不选怎么结算呢！')
+        this.$message.warning('客官这是玩笑了，您不选怎么结算呢！')
       } else {
         this.$router.push('/order/confirm')
       }
@@ -156,11 +158,11 @@ export default {
 }
 .cart{
   .wrapper{
-    background-color:#F5F5F5;
+    background-color:#ffffff;
     padding-top:30px;
     padding-bottom:114px;
     .cart-box{
-      background-color:#fff;
+      background-color:#ffffff;
       font-size:14px;
       color:#999999;
       text-align:center;

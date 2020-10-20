@@ -16,7 +16,6 @@ function getUserInfo (userName, password, res) {
   Admin.findOne({userName, password}).then((admin) => {
     if (admin) {
       reqData.data = admin
-      reqData.message = '登陆成功'
     } else {
       reqData.status = 1
       reqData.message = '用户名或密码错误'
@@ -129,43 +128,60 @@ router.post('/carts', (req, res) => {
   let productId = req.body.productId
   let selected = req.body.selected
   if (productId && selected) {
-    Product.findOne({productId}).then((product) => {
-      if (product) {
-        let cartList = {
-          productId: product.productId,
-          productName: product.productName,
-          productPrice: product.productPrice,
-          productImage: product.productImage,
-          productStock: product.productStock,
-          quantity: 1,
-          selected: selected,
-          productTotalPrice: product.productPrice * 1
-        }
-        Admin.findOne({userName: 'L'}).then((admin) => {
-          let selectedAll
-          if (admin.cartList.length === 0) {
-            selectedAll = true
-          } else {
-            selectedAll = admin.selectedAll
-          }
-          Admin.updateOne({userName: 'L'}, {
-            $push: {cartList},
-            $set: {selectedAll}
+    // 检测该商品是否存在购物车中
+    Admin.findOne({'userName': 'L', 'cartList.productId': productId})
+      .then((userInfo) => {
+        // 若存在则增加数量
+        if (userInfo) {
+          Admin.updateOne({
+            'userName': 'L',
+            'cartList.productId': productId
+          }, {
+            $inc: {
+              'cartList.$.quantity': 1
+            }
           }).then((doc) => {
             if (doc) {
-              Admin.findOne({userName: 'L'}).then((userInfo) => {
-                reqData.data = userInfo
-                res.json(reqData)
-              })
+              getUserInfo('L', '123', res)
             }
           })
-        })
-      } else {
-        reqData.status = 2
-        reqData.message = '购物车添加失败'
-        res.json(reqData)
-      }
-    })
+        } else { // 若不存在，则重新添加
+          Product.findOne({productId}).then((product) => {
+            if (product) {
+              let cartList = {
+                productId: product.productId,
+                productName: product.productName,
+                productPrice: product.productPrice,
+                productImage: product.productImage,
+                productStock: product.productStock,
+                quantity: 1,
+                selected: selected,
+                productTotalPrice: product.productPrice * 1
+              }
+              Admin.findOne({userName: 'L'}).then((admin) => {
+                let selectedAll
+                if (admin.cartList.length === 0) {
+                  selectedAll = true
+                } else {
+                  selectedAll = admin.selectedAll
+                }
+                Admin.updateOne({userName: 'L'}, {
+                  $push: {cartList},
+                  $set: {selectedAll}
+                }).then((doc) => {
+                  if (doc) {
+                    getUserInfo('L', '123', res)
+                  }
+                })
+              })
+            } else {
+              reqData.status = 2
+              reqData.message = '购物车添加失败'
+              res.json(reqData)
+            }
+          })
+        }
+      })
   } else {
     reqData.status = 2
     reqData.message = '购物车添加失败'
@@ -188,23 +204,80 @@ router.get('/carts', (req, res) => {
     res.json(reqData)
   })
 })
-
-// router.put('/carts/unSelectAll', (req, res) => {
-//   console.log('进入全不选')
-//   reqData.data = db.cartsUnSelectAll
-//   res.json(reqData)
-// })
-// router.put('/carts/selectAll', (req, res) => {
-//   console.log('进入全选')
-//   reqData.data = db.cartsSelectAll
-//   res.json(reqData)
-// })
-// router.put('/carts/:productId', (req, res) => {
-//   console.log('进入putcarts')
-//   const quantity = req.body.quantity
-//   const selected = req.body.selected
-//
-// })
-// router.delete('/carts/:productId')
+// 全不选中
+router.put('/carts/ifSelect', (req, res) => {
+  console.log('进入全不选')
+  let selected = req.body.selected
+  Admin.findOne({userName: 'L'}).then((userInfo) => {
+    let cart = userInfo.cartList.map(item => {
+      item.selected = selected
+      return item
+    })
+    Admin.updateOne({'userName': 'L'}, {
+      $set: {
+        'cartList': cart,
+        'selectedAll': selected
+      }
+    }).then((doc) => {
+      if (doc) {
+        getUserInfo('L', '123', res)
+      }
+    })
+  })
+})
+// 修改选中与否和商品数量
+router.put('/carts/:productId', (req, res) => {
+  console.log('进入putcarts')
+  let productId = req.params.productId
+  let quantity = req.body.quantity
+  let selected = req.body.selected
+  Admin.findOne({userName: 'L'}).then((userInfo) => {
+    let cart = userInfo.cartList.map(item => {
+      if (item.productId === productId) {
+        item.quantity = quantity
+        item.productTotalPrice = Math.round(quantity * item.productPrice * 100) / 100
+        item.selected = selected
+      }
+      return item
+    })
+    let selectedAll = cart.every(item => item.selected)
+    Admin.updateOne({
+      'userName': 'L',
+      'cartList.productId': productId
+    }, {
+      $set: {
+        'cartList': cart,
+        'selectedAll': selectedAll
+      }
+    }).then((doc) => {
+      if (doc) {
+        getUserInfo('L', '123', res)
+      }
+    })
+  })
+})
+// 删除购物车中的一件商品
+router.delete('/carts/:productId', (req, res) => {
+  console.log('进入删除商品')
+  let productId = req.params.productId
+  Admin.findOne({userName: 'L'}).then((admin) => {
+    if (admin) {
+      let newCart = admin.cartList.filter(item => item.productId !== productId)
+      let selectedAll = newCart.every(item => item.selected)
+      Admin.updateOne({
+        'userName': 'L'
+      }, {
+        $set: {
+          'cartList': newCart,
+          'selectedAll': selectedAll
+        }
+      }).then((doc) => {
+        if (doc) {
+          getUserInfo('L', '123', res)
+        }
+      })
+    }
+  })
+})
 
 module.exports = router

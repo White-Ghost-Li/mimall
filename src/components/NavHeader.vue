@@ -22,7 +22,7 @@
           <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
           <a href="JavaScript:" v-show="!userName">注册 |</a>
           <a href="JavaScript:">消息通知 |</a>
-          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.sum||0}})</a>
+          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.length||0}})</a>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
                   <a :href="'/product/'+item.productId" target="_blank">
                     <div class="pro-img">
 <!--                      <img :src="item.img" :alt="item.productId">-->
-                      <img :src="require('../assets/imgs/nav-img/'+item.productImage)" :alt="item.productName">
+                      <img :src="require('../assets/imgs/'+item.productImage)" :alt="item.productName">
                     </div>
                     <div class="pro-name">{{item.productName}}</div>
                     <div class="pro-price">{{item.productPrice | currency}}</div>

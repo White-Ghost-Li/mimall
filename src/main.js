@@ -6,6 +6,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import {Message} from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import router from './router'
 
@@ -26,11 +28,11 @@ axios.interceptors.response.use((response) => {
       return Promise.reject(res)
     }
   } else {
-    alert(res.message)
+    this.$message.warning(res.message)
     return Promise.reject(res)
   }
 })
-
+Vue.prototype.$message = Message
 Vue.use(VueAxios, axios)
 Vue.use(VueCookie)
 Vue.use(VueLazyLoad, {
