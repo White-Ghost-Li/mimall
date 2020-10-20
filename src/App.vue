@@ -5,30 +5,31 @@
 </template>
 
 <script>
+// import {mapActions} from 'vuex'
 export default {
   name: 'App',
   mounted () {
     this.getUserInfo()
-    this.getCartSum()
   },
   methods: {
     getUserInfo () {
       this.axios.get('/user').then((res) => {
-        let userName
+        let userName, cart
         if (!res) {
           userName = ''
+          cart = []
         } else {
           userName = res.userName
+          cart = res.cartList
         }
         this.$store.dispatch('saveUserName', userName)
-      })
-    },
-    getCartSum () {
-      this.axios.get('/carts/products/sum').then((res) => {
-        this.$store.dispatch('getCartSum', res || 0)
+        this.$store.dispatch('saveCart', cart)
+        // this.saveUserName(userName)
+        // this.saveCart(cart)
       })
     }
   }
+  // ...mapActions(['saveUserName', 'saveCart'])
 }
 </script>
 

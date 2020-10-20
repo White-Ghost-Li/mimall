@@ -1,14 +1,14 @@
 <template>
   <div class="product">
-    <product-param :product-name="product.name">
+    <product-param :product-name="product.productName">
       <template v-slot:button>
         <button class="button" @click="buy">立即购买</button>
       </template>
     </product-param>
     <div class="content">
       <div class="item-bg">
-        <h2>{{product.name}}</h2>
-        <h3>{{product.subtitle}}</h3>
+        <h2>{{product.productName}}</h2>
+        <h3>{{product.productSubtitle}}</h3>
         <p>
           <a href="">全球首款双频 GP</a><span>|</span>
           <a href="">骁龙845</a><span>|</span>
@@ -16,7 +16,7 @@
           <a href="">红外人脸识别</a><span>|</span>
         </p>
         <div class="price">
-          <span>￥<em>2599</em></span>
+          <span>￥<em>{{ product.productPrice }}</em></span>
         </div>
       </div>
       <div class="item-bg-2"></div>

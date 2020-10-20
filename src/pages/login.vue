@@ -23,8 +23,8 @@
             <button class="btn" @click="login">登陆</button>
           </div>
           <div class="tips">
-            <div class="sms" @click="register">手机短信登陆/注册</div>
-            <div class="reg">立即注册<span>|</span>忘记密码？</div>
+            <div class="sms">手机短信登陆/注册</div>
+            <div class="reg" @click="register">立即注册<span>|</span>忘记密码？</div>
           </div>
         </div>
       </div>
@@ -58,10 +58,12 @@ export default {
     },
     register () {
       this.axios.post('/user/register', {
-        userName: 'root',
-        password: 'root',
+        userName: 'L',
+        password: '123',
         email: 'root@163.com'
-      }).then(() => {
+      }).then((res) => {
+        this.userName = res.userName
+        this.password = res.password
         alert('注册成功')
       })
     }

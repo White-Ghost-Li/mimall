@@ -22,7 +22,7 @@
           <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
           <a href="JavaScript:" v-show="!userName">注册 |</a>
           <a href="JavaScript:">消息通知 |</a>
-          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.sum}})</a>
+          <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.sum||0}})</a>
         </div>
       </div>
     </div>
@@ -30,18 +30,18 @@
       <div class="container">
         <logo></logo>
         <div class="header-menu">
-          <div class="item-menu" v-for="(product, i) in headerProduct" :key="i" v-if="headerProduct">
+          <div class="item-menu" v-for="(product, i) in productHeader" :key="i">
             <span>{{product.name}}</span>
             <div class="children">
               <ul>
                 <li class="product" v-for="(item, j) in product.children" :key="j">
-                  <a :href="'/product/'+item.id" target="_blank">
+                  <a :href="'/product/'+item.productId" target="_blank">
                     <div class="pro-img">
 <!--                      <img :src="item.img" :alt="item.productId">-->
-                      <img src="require('../assets/imgs/nav-img/'+item.img)" :alt="item.id">
+                      <img :src="require('../assets/imgs/nav-img/'+item.productImage)" :alt="item.productName">
                     </div>
-                    <div class="pro-name">{{item.name}}</div>
-                    <div class="pro-price">{{item.price | currency}}</div>
+                    <div class="pro-name">{{item.productName}}</div>
+                    <div class="pro-price">{{item.productPrice | currency}}</div>
                   </a>
                 </li>
               </ul>
@@ -70,8 +70,7 @@ export default {
   },
   data () {
     return {
-      // userName: this.$store.state.userName,
-      headerProduct: []
+      productHeader: []
     }
   },
   computed: {
@@ -84,17 +83,17 @@ export default {
     }
   },
   mounted () {
-    // this.getProductList()
+    this.getProductList()
   },
   methods: {
     login () {
       this.$router.push('/login')
     },
-    // getProductList () {
-    //   this.axios.get('/headerProduct').then((res) => {
-    //     this.headerProduct = res
-    //   })
-    // },
+    getProductList () {
+      this.axios.get('/product/productHeader').then((res) => {
+        this.productHeader = res
+      })
+    },
     goToCart () {
       this.$router.push('/cart')
     }

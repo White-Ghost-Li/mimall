@@ -4,14 +4,14 @@
       <div class="swiper-box">
         <div class="nav-menu">
           <ul class="menu-wrap">
-            <li class="menu-item" v-for="(name, dex) in menuList" :key="dex">
-              <a href="">{{name}}</a>
+            <li class="menu-item" v-for="(productArr, dex) in productMenu" :key="dex" v-if="productMenu">
+              <a href="">{{productArr.name}}</a>
               <div class="children">
-                <ul v-for="(list, index) in childList" :key="index">
-                  <li v-for="(item, ind) in list" :key="ind">
-                    <a :href="'/product/'+item.id">
-                      <img :src="item.img" alt="item.name">
-                      {{item.name}}
+                <ul v-for="i in 3" :key="i">
+                  <li v-for="j in 6" :key="j">
+                    <a :href="'/product/'+productArr.children[0].productId">
+                      <img v-lazy="require('../assets/imgs/'+productArr.children[0].productImage)" alt="">
+                      {{productArr.children[0].productName}}
                     </a>
                   </li>
                 </ul>
@@ -48,16 +48,16 @@
             </a>
           </div>
           <div class="list-box">
-            <div class="list" v-for="(arr, i) in phoneList" :key="i">
-              <div class="item" v-for="(item, j) in arr" :key="j" @click="goToCart">
-                <span :class="item.title==='新品' ? 'new-pro':'kill-pro'">{{item.title}}</span>
+            <div class="list" v-for="i in 2" :key="i" v-if="phoneList">
+              <div class="item" v-for="(item,j) in phoneList" :key="j" @click="goToCart">
+                <span :class="item.className==='新品' ? 'new-pro':'kill-pro'">{{item.className}}</span>
                 <div class="item-img">
-                  <img v-lazy="item.img" alt="item.name">
+                  <img v-lazy="require('../assets/imgs/'+item.productImage)" alt="">
                 </div>
                 <div class="item-info">
-                  <h3>{{item.name}}</h3>
-                  <p>{{item.bei}}</p>
-                  <p class="price">{{item.price}}</p>
+                  <h3>{{item.productName}}</h3>
+                  <p>{{item.productSubtitle}}</p>
+                  <p class="price">{{item.productPrice}}</p>
                 </div>
               </div>
             </div>
@@ -134,95 +134,7 @@ export default {
           img: require('../assets/imgs/slider/slide-5.jpg')
         }
       ],
-      childList: [
-        [
-          {
-            id: '01',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          },
-          {
-            id: '02',
-            name: 'Redmi K30 至尊纪念版',
-            img: require('../assets/imgs/item-box-2.png')
-          },
-          {
-            id: '03',
-            name: 'Redmi 10X Pro',
-            img: require('../assets/imgs/item-box-3.jpg')
-          },
-          {
-            id: '04',
-            name: 'Redmi 9',
-            img: require('../assets/imgs/item-box-4.jpg')
-          },
-          {
-            id: '05',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          },
-          {
-            id: '06',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          }
-        ],
-        [
-          {
-            id: '07',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          },
-          {
-            id: '08',
-            name: 'Redmi K30 至尊纪念版',
-            img: require('../assets/imgs/item-box-2.png')
-          },
-          {
-            id: '09',
-            name: 'Redmi 10X Pro',
-            img: require('../assets/imgs/item-box-3.jpg')
-          },
-          {
-            id: '10',
-            name: 'Redmi 9',
-            img: require('../assets/imgs/item-box-4.jpg')
-          },
-          {
-            id: '11',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          },
-          {
-            id: '12',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          }
-        ],
-        [
-          {
-            id: '13',
-            name: '小米10至尊纪念版',
-            img: require('../assets/imgs/item-box-1.png')
-          },
-          {
-            id: '14',
-            name: 'Redmi K30 至尊纪念版',
-            img: require('../assets/imgs/item-box-2.png')
-          },
-          {
-            id: '15',
-            name: 'Redmi 10X Pro',
-            img: require('../assets/imgs/item-box-3.jpg')
-          },
-          {
-            id: '16',
-            name: 'Redmi 9',
-            img: require('../assets/imgs/item-box-4.jpg')
-          }
-        ]
-      ],
-      menuList: ['手机 电话卡', '电视 盒子', '笔记本 显示器', '家电 插线板', '出行 穿戴', '智能 路由器', '电源 配件', '耳机 音响'],
+      productMenu: [],
       adsList: [
         {
           id: 51,
@@ -241,76 +153,7 @@ export default {
           img: require('../assets/imgs/ads/ads-4.jpg')
         }
       ],
-      phoneList: [
-        [
-          {
-            id: 61,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-1.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 62,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-2.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 63,
-            title: '秒杀',
-            img: require('../assets/imgs/nav-img/nav-3.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 64,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-4.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          }
-        ],
-        [
-          {
-            id: 65,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-1.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 66,
-            title: '秒杀',
-            img: require('../assets/imgs/nav-img/nav-2.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 67,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-3.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          },
-          {
-            id: 68,
-            title: '新品',
-            img: require('../assets/imgs/nav-img/nav-4.png'),
-            name: '小米10至尊版',
-            price: '5299元起',
-            bei: '120X变焦/120W秒充/120Hz刷新率'
-          }
-        ]
-      ],
+      phoneList: [],
       showModal: false
     }
   },
@@ -321,14 +164,20 @@ export default {
     Modal
   },
   mounted () {
-    // this.getHeaderProduct()
+    this.getProductMenu()
+    this.getPhoneList()
   },
   methods: {
-    // getHeaderProduct () {
-    //   this.axios.get('/productList').then((res) => {
-    //     console.log(res)
-    //   })
-    // },
+    getProductMenu () {
+      this.axios.get('/product/productMenu').then((res) => {
+        this.productMenu = res
+      })
+    },
+    getPhoneList () {
+      this.axios.get('/product/phoneList').then((res) => {
+        this.phoneList = res[0].children
+      })
+    },
     goToCart () {
       this.showModal = true
     },

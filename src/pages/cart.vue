@@ -19,13 +19,13 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="cart-item-list">
-            <li class="cart-item" v-for="(item,index) in list" :key="index">
+            <li class="cart-item" v-for="(item,index) in cart" :key="index">
               <div class="item-check">
-                <span class="checkbox" :class="{'checked':item.productSelected}" @click="updateCartSomeOne(item)"></span>
+                <span class="checkbox" :class="{'checked':item.selected}" @click="updateCartSomeOne(item)"></span>
               </div>
               <div class="item-name">
-                <img :src="require('../assets/imgs/'+item.productMainImage)" :alt="item.productName">
-                <span>{{item.productName+','+item.productSubtitle}}</span>
+                <img :src="require(`../assets/imgs/${item.productImage}`)" :alt="item.productName">
+                <span>{{item.productName}}</span>
               </div>
               <div class="item-price">{{item.productPrice}}</div>
               <div class="item-num">
@@ -43,7 +43,7 @@
         <div class="order-wrap clearfix">
           <div class="cart-tip fl">
             <a href="/">继续购物</a>
-            共<span>{{list.length}}</span>件商品，已选择<span>{{checkedNum}}</span>件
+            共<span>{{cart.length}}</span>件商品，已选择<span>{{checkedNum}}</span>件
           </div>
           <div class="total fr">
             合计：<span>{{cartTotalPrice}}</span>元
@@ -61,15 +61,12 @@
 import OrderHeader from '../components/OrderHeader'
 import NavFooter from '../components/NavFooter'
 import ServiceBar from '../components/ServiceBar'
-
+import {mapState, mapGetters} from 'vuex'
 export default {
   name: 'cart',
   data () {
     return {
-      list: [], // 商品列表
-      allChecked: false, // 是否选中
-      cartTotalPrice: 0, // 商品总价格
-      checkedNum: 0 // 选中商品总价格
+      allChecked: false // 是否选中
     }
   },
   components: {
@@ -77,12 +74,17 @@ export default {
     NavFooter,
     ServiceBar
   },
+  computed: {
+    ...mapState(['cart']),
+    ...mapGetters(['cartTotalPrice', 'checkedNum'])
+  },
   mounted () {
     this.getCartList()
   },
   methods: {
     getCartList () {
       this.axios.get('/carts').then((res) => {
+        console.log(res)
         this.renderData(res)
       })
     },
@@ -93,41 +95,38 @@ export default {
       })
     },
     renderData (res) {
-      this.list = res.cartProductVoList
       this.allChecked = res.selectedAll
-      this.cartTotalPrice = res.cartTotalPrice
-      this.checkedNum = res.cartProductVoList.filter(item => item.productSelected).length
-      this.$store.dispatch('saveCart', res)
+      this.$store.dispatch('saveCart', res.cartList)
     },
     updateCartSomeOne (item, type) {
-      let quantity = item.quantity
-      let selected = item.productSelected
-      if (type === '-') {
-        if (quantity === 1) {
-          alert('客官，真的不能再少了，再少就没了')
-          return
-        }
-        --quantity
-      } else if (type === '+') {
-        if (quantity > item.productStock) {
-          alert('客官，已经超额了，我们没有辣么多')
-          return
-        }
-        ++quantity
-      } else {
-        selected = !item.productSelected
-      }
-      this.axios.put(`/carts/${item.productId}`, {
-        quantity,
-        selected
-      }).then((res) => {
-        this.renderData(res)
-      })
+    //   let quantity = item.quantity
+    //   let selected = item.selected
+    //   if (type === '-') {
+    //     if (quantity === 1) {
+    //       alert('客官，真的不能再少了，再少就没了')
+    //       return
+    //     }
+    //     --quantity
+    //   } else if (type === '+') {
+    //     // if (quantity > item.productStock) {
+    //     //   alert('客官，已经超额了，我们没有辣么多')
+    //     //   return
+    //     // }
+    //     ++quantity
+    //   } else {
+    //     selected = !item.selected
+    //   }
+    //   this.axios.put(`/carts/${item.productId}`, {
+    //     quantity,
+    //     selected
+    //   }).then((res) => {
+    //     this.renderData(res)
+    //   })
     },
     delProduct (item) {
-      this.axios.delete(`/carts/${item.productId}`).then((res) => {
-        this.renderData(res)
-      })
+    //   this.axios.delete(`/carts/${item.productId}`).then((res) => {
+    //     this.renderData(res)
+    //   })
     },
     goOrder () {
       if (this.checkedNum === 0) {

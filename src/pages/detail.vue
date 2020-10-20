@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <product-param :product-name="product.name"></product-param>
+    <product-param :product-name="product.productName"></product-param>
     <div class="wrapper">
       <div class="container clearfix">
         <div class="swiper">
@@ -12,15 +12,15 @@
           </swiper>
         </div>
         <div class="content">
-          <h2 class="item-title">{{product.name}}</h2>
+          <h2 class="item-title">{{product.productName}}</h2>
           <p class="item-info">相机全新升级 / 960帧超慢动作 / 手持超级夜景 / 全球首款双频GPS / 骁龙845处理器 / 红<br/>外人脸解锁 / AI变焦双摄 / 三星 AMOLED 屏</p>
           <div class="delivery">小米自营</div>
-          <div class="item-price">{{product.price}}元<span class="del">{{product.oldPrice}}元</span></div>
+          <div class="item-price">{{product.productPrice}}元<span class="del">{{product.productOldPrice}}元</span></div>
           <div class="line"></div>
           <div class="item-addr">
             <i class="icon-loc"></i>
             <div class="addr">北京 北京市 朝阳区 安定门街道</div>
-            <div class="stock">有现货</div>
+            <div class="stock">{{product.productStock>0?'有现货':'估清'}}</div>
           </div>
           <div class="item-version clearfix">
             <h2>选择版本</h2>
@@ -35,10 +35,10 @@
           </div>
           <div class="item-total">
             <div class="phone-info clearfix">
-              <div class="fl">{{product.name}} {{version===1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深空灰</div>
-              <div class="fr">{{product.price}}元</div>
+              <div class="fl">{{product.productName}} {{version===1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深空灰</div>
+              <div class="fr">{{product.productPrice}}元</div>
             </div>
-            <div class="phone-total">总计：{{product.price}}元</div>
+            <div class="phone-total">总计：{{product.productPrice}}元</div>
           </div>
           <div class="btn-group">
             <button class="btn btn-huge fl" @click="addCart">加入购物车</button>
@@ -97,10 +97,9 @@ export default {
     },
     addCart () {
       this.axios.post(`/carts`, {
-        productId: this.id,
+        productId: this.product.productId,
         selected: true
       }).then((res) => {
-        this.$store.dispatch('getCartSum', res.cartProductVoList.length)
         this.$router.push('/cart')
       })
     }
