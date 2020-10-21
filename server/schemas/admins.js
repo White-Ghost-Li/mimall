@@ -28,18 +28,22 @@ module.exports = new mongoose.Schema({
           productId: String,
           productName: String,
           productPrice: Number,
-          productImg: String,
+          productImage: String,
           selected: Boolean,
           quantity: Number,
           productTotalPrice: Number
         }
       ],
       dressContent: {
-        dressId: String,
-        dressName: String,
-        streetName: String,
-        postCode: String,
-        tel: String,
+        receiverId: String,
+        receiverName: String,
+        receiverPhone: String,
+        receiverMobile: String,
+        receiverProvince: String,
+        receiverCity: String,
+        receiverDistrict: String,
+        receiverAddress: String,
+        receiverZip: String,
         idDefault: Boolean
       },
       subTotal: Number,
@@ -51,12 +55,16 @@ module.exports = new mongoose.Schema({
   ],
   addressList: [
     {
-      dressId: String,
-      dressName: String,
-      streetName: String,
-      postCode: String,
-      tel: String,
-      idDefault: Boolean
+      receiverId: String, // ID
+      receiverName: String, // 名字
+      receiverPhone: String, // 手机区号
+      receiverMobile: String, // 手机号
+      receiverProvince: String, // 省份
+      receiverCity: String, // 市
+      receiverDistrict: String, // 区
+      receiverAddress: String, // 村/街道/小区
+      receiverZip: String, // 邮编
+      isDefault: Boolean // 是否默认/选中
     }
   ],
   selectedAll: Boolean

@@ -20,7 +20,8 @@
         <div class="top-bar-user">
           <a href="JavaScript:" v-if="userName">{{userName}} |</a>
           <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
-          <a href="JavaScript:" v-show="!userName">注册 |</a>
+          <a href="JavaScript:" v-if="!userName">注册 |</a>
+          <a href="JavaScript:" v-if="userName" @click="logout">退出 |</a>
           <a href="JavaScript:">消息通知 |</a>
           <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.length||0}})</a>
         </div>
@@ -88,6 +89,14 @@ export default {
   methods: {
     login () {
       this.$router.push('/login')
+    },
+    logout () {
+      this.axios.get('/logout').then(() => {
+        this.$store.dispatch('saveUserName', '')
+        this.$store.dispatch('saveCart', [])
+        this.$cookie.delete('userInfo')
+        this.$message.success('已成功退出')
+      })
     },
     getProductList () {
       this.axios.get('/product/productHeader').then((res) => {

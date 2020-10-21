@@ -11,8 +11,8 @@
           <slot name="body"></slot>
         </div>
         <div class="modal-footer">
-          <button class="btn" v-if="isForSave" @click="save">{{sureBtn}}</button>
-          <button class="btn" v-if="isForClose" @click="closeModal">{{exitBtn}}</button>
+          <button class="btn" v-if="isForSave" @click="$emit('submit')">{{sureBtn}}</button>
+          <button class="btn" v-if="isForClose" @click="$emit('closeModal')">{{exitBtn}}</button>
         </div>
       </div>
     </div>
@@ -47,14 +47,6 @@ export default {
     },
     isForClose () {
       return this.btnType === '2' || this.btnType === '3'
-    }
-  },
-  methods: {
-    closeModal () {
-      this.$emit('closeModal')
-    },
-    save () {
-      this.$emit('submit')
     }
   }
 }

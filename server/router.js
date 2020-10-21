@@ -279,5 +279,57 @@ router.delete('/carts/:productId', (req, res) => {
     }
   })
 })
-
+// 退出
+router.get('/logout', (req, res) => {
+  console.log('退出')
+  console.log('清理session会话信息')
+  reqData.message = '已经退出'
+  res.json(reqData)
+})
+// 获取地址列表
+router.get('/shipping', (req, res) => {
+  console.log('进入地址列表')
+  Admin.findOne({userName: 'L'}).then((admin) => {
+    if (admin) {
+      reqData.data = admin.addressList
+    } else {
+      reqData.status = 1
+      reqData.message = '服务器连接错误，请重试'
+    }
+    res.json(reqData)
+  })
+})
+// 删除某个地址
+router.delete('/shipping/:receiverId', (req, res) => {
+  console.log('进入删除地址某项中')
+  let receiverId = req.params.receiverId
+  Admin.findOne({userName: 'L'}).then((admin) => {
+    if (admin) {
+      let newAddress = admin.addressList.filter(item => item.receiverId !== receiverId)
+      if (newAddress.every(item => !item.isDefault)) {
+        newAddress[0].isDefault = true
+      }
+      Admin.updateOne({
+        'userName': 'L'
+      }, {
+        $set: {
+          'addressList': newAddress
+        }
+      }).then((doc) => {
+        if (doc) {
+          reqData.message = '删除成功'
+          res.json(reqData)
+        }
+      })
+    }
+  })
+})
+// 修改地址
+router.put('/shipping/:receiverId', (req, res) => {
+  console.log('进入修改地址')
+})
+// 新增地址
+router.post('/shipping/:receiverId', (req, res) => {
+  console.log('进入新增地址')
+})
 module.exports = router

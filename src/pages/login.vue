@@ -53,6 +53,7 @@ export default {
       }).then((res) => {
         this.$cookie.set('userInfo', res, {expires: '1M'})
         this.$store.dispatch('saveUserName', userName)
+        this.$store.dispatch('saveCart', res.cartList)
         this.$router.push('/index')
       })
     },

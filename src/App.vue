@@ -9,7 +9,9 @@
 export default {
   name: 'App',
   mounted () {
-    this.getUserInfo()
+    if (this.$cookie.get('userInfo')) {
+      this.getUserInfo()
+    }
   },
   methods: {
     getUserInfo () {
@@ -35,4 +37,5 @@ export default {
 
 <style>
 @import './assets/scss/reset.scss';
+@import './assets/scss/base.scss';
 </style>

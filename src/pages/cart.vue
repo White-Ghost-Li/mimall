@@ -143,19 +143,6 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/mixin';
-.fl{
-  float: left;
-}
-.fr{
-  float: right;
-}
-.clearfix:before,.clearfix:after{
-  content: '';
-  display: table;
-}
-.clearfix:after{
-  clear: both;
-}
 .cart{
   .wrapper{
     background-color:#ffffff;
