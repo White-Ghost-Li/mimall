@@ -300,20 +300,19 @@ router.get('/shipping', (req, res) => {
   })
 })
 // 删除某个地址
-router.delete('/shipping/:receiverId', (req, res) => {
+router.delete('/shipping/:_id', (req, res) => {
   console.log('进入删除地址某项中')
-  let receiverId = req.params.receiverId
+  let _id = req.params._id
   Admin.findOne({userName: 'L'}).then((admin) => {
     if (admin) {
-      let newAddress = admin.addressList.filter(item => item.receiverId !== receiverId)
-      if (newAddress.every(item => !item.isDefault)) {
-        newAddress[0].isDefault = true
-      }
       Admin.updateOne({
-        'userName': 'L'
+        'userName': 'L',
+        'addressList._id': _id
       }, {
-        $set: {
-          'addressList': newAddress
+        $pull: {
+          'addressList': {
+            _id
+          }
         }
       }).then((doc) => {
         if (doc) {
@@ -325,11 +324,76 @@ router.delete('/shipping/:receiverId', (req, res) => {
   })
 })
 // 修改地址
-router.put('/shipping/:receiverId', (req, res) => {
+router.put('/shipping/:_id', (req, res) => {
   console.log('进入修改地址')
+  let address = req.body.address
+  let _id = req.params._id
+  Admin.updateOne({
+    'userName': 'L',
+    'addressList._id': _id
+  }, {
+    $set: {
+      'addressList.$.receiverName': address.receiverName,
+      'addressList.$.receiverMobile': address.receiverMobile,
+      'addressList.$.receiverProvince': address.receiverProvince,
+      'addressList.$.receiverCity': address.receiverCity,
+      'addressList.$.receiverDistrict': address.receiverDistrict,
+      'addressList.$.receiverAddress': address.receiverAddress,
+      'addressList.$.receiverZip': address.receiverZip,
+      'addressList.$.isDefault': address.isDefault
+    }
+  }).then((doc) => {
+    if (doc) {
+      reqData.message = '地址修改成功'
+      res.json(reqData)
+    }
+  })
 })
 // 新增地址
-router.post('/shipping/:receiverId', (req, res) => {
+router.post('/shipping', (req, res) => {
   console.log('进入新增地址')
+  let address = req.body.address
+  Admin.findOne({userName: 'L'}).then((admin) => {
+    if (admin) {
+      let list = admin.addressList
+      list.push(address)
+      Admin.updateOne({userName: 'L'}, {
+        $set: {'addressList': list}
+      }).then((doc) => {
+        if (doc) {
+          reqData.message = '地址添加成功'
+          res.json(reqData)
+        }
+      })
+    }
+  })
 })
+// 订单提交
+router.post('/orders', (req, res) => {
+  console.log('进入订单提交')
+  let order = req.body.order
+  Admin.updateOne({
+    userName: 'L'
+  }, {
+    $addToSet: {
+      'orders': order
+    },
+    $pull: {
+      'cartList': {
+        selected: true
+      }
+    }
+  }).then((doc) => {
+    if (doc) {
+      Admin.findOne({
+        userName: 'L'
+      }).then((admin) => {
+        reqData.data = admin.orders.find(item => item.createDate === order.createDate)
+        res.json(reqData)
+      })
+    }
+  })
+})
+//
+
 module.exports = router

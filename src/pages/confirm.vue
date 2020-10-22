@@ -25,7 +25,7 @@
           <div class="item-address">
             <h2 class="addr-title">收货地址</h2>
             <div class="addr-list clearfix">
-              <div class="addr-info" v-for="(item,index) in list" :key="index" v-if="list">
+              <div class="addr-info" :class="{'checked':item.isDefault}" v-for="(item,index) in list" :key="index" v-if="list" @click="point(item,index)">
                 <h2>{{item.receiverName}}</h2>
                 <div class="phone">{{item.receiverMobile}}</div>
                 <div class="street">{{item.receiverProvince+'/'+item.receiverCity+'/'+item.receiverDistrict+'/'+item.receiverAddress}}</div>
@@ -100,13 +100,17 @@
       </div>
     </div>
     <modal
-      title=""
+      title="收货地址"
+      btn-type="3"
+      :show-modal="showEditModal"
+      @closeModal="showEditModal=false"
+      @submit="submitAddress"
     >
       <template v-slot:body>
-        <div class="edit-warp">
+        <div class="edit-wrap">
           <div class="item">
             <input type="text" class="input" placeholder="姓名" v-model="checkedItem.receiverName">
-            <input type="text" class="input" placeholder="手机号" v-model="checkedItem.receiverMobile">
+            <input type="text" maxlength="11" class="input" placeholder="手机号" v-model="checkedItem.receiverMobile">
           </div>
           <div class="item">
             <select name="province" v-model="checkedItem.receiverProvince">
@@ -129,7 +133,7 @@
             </select>
           </div>
           <div class="item">
-            <textarea name="street" cols="30" rows="10" v-model="checkedItem.receiverAddress"></textarea>
+            <textarea name="street" v-model="checkedItem.receiverAddress"></textarea>
           </div>
           <div class="item">
             <input type="text" class="input" placeholder="邮编" v-model="checkedItem.receiverZip">
@@ -142,7 +146,7 @@
       :showModal="showDelModal"
       btn-type="1"
       @closeModal="showDelModal=false"
-      @save="submitAddress"
+      @submit="submitAddress"
     >
       <template v-slot:body>
         <p>您确认要删除此地址吗？</p>
@@ -160,17 +164,16 @@ export default {
     return {
       list: [], // 收货地址列表
       cartInvoicing: [], // 购物车中结算的部分
-      // count: 0 // 商品结算数量
-      // cartTotalPrice: '' // 商品总金额
       showEditModal: false, // 是否显示编辑model
       showDelModal: false, // 是否显示删除model
       checkedItem: {}, // 选中商品对象
-      userAction: '' // 用户操作行为  0：新增，1：编辑，2：删除
+      userAction: '', // 用户操作行为  0：新增，1：编辑，2：删除
+      checkedAddress: {} // 选中的地址对象
     }
   },
   computed: {
-    ...mapGetters(['cartTotalPrice']),
-    count () {
+    ...mapGetters(['cartTotalPrice']), // 商品总金额
+    count () { // 商品结算数量
       let num = 0
       if (this.cartInvoicing) {
         this.cartInvoicing.forEach((item) => {
@@ -189,6 +192,7 @@ export default {
       this.axios.get('/shipping').then((res) => {
         if (res) {
           this.list = res
+          this.checkedAddress = this.list.find(item => item.isDefault)
         }
       })
     },
@@ -202,6 +206,7 @@ export default {
       this.userAction = i
       if (i === '0') { // 新增
         this.showEditModal = true
+        this.checkedItem = {}
       } else if (i === '1') { // 编辑
         this.checkedItem = item
         this.showEditModal = true
@@ -211,10 +216,40 @@ export default {
       }
     },
     submitAddress () {
-      console.log('dianji')
-      // this.axios.delete(`/shipping/${item.receiverId}`).then(() => {
-      //
-      // })
+      let {userAction, checkedItem} = this
+      let {receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip} = checkedItem
+      let method, url
+      let address = {}
+      if (userAction === '0') { // 新增
+        method = 'post'
+        url = '/shipping'
+      } else if (userAction === '1') { // 编辑
+        method = 'put'
+        url = `/shipping/${checkedItem._id}`
+      } else if (userAction === '2') { // 删除
+        method = 'delete'
+        url = `/shipping/${checkedItem._id}`
+      }
+      if (userAction === '0' || userAction === '1') {
+        if (!receiverName || !receiverMobile || !/^1\d{10}$/.test(receiverMobile) || !receiverProvince || !receiverCity || !receiverDistrict || !receiverAddress || !receiverZip || !/^\d{6}$/.test(receiverZip)) {
+          this.$message.warning('地址尚不完整，请补全重试')
+          return
+        }
+        address = {
+          receiverName, // 名字
+          receiverMobile, // 手机号
+          receiverProvince, // 省份
+          receiverCity, // 市
+          receiverDistrict, // 区
+          receiverAddress, // 村/街道/小区
+          receiverZip, // 邮编
+          isDefault: false // 是否默认/选中
+        }
+      }
+      this.axios[method](url, {address}).then(() => {
+        this.getAddressList()
+        this.modalReset()
+      })
     },
     modalReset () {
       this.userAction = ''
@@ -225,7 +260,40 @@ export default {
     goCart () {
       this.$router.push('/cart')
     },
+    point (item, i) {
+      this.list = this.list.map((l) => {
+        l.isDefault = false
+        return l
+      })
+      this.list[i].isDefault = true
+      this.checkedAddress = item
+    },
     orderSubmit () {
+      if (this.list.every(item => !item.isDefault)) {
+        this.$message.error('请选择地址后重试')
+        return
+      }
+      let order = {
+        createDate: new Date(),
+        productList: this.cartInvoicing,
+        addressContent: this.checkedAddress,
+        countTotal: this.count, // 总数量
+        subTotal: this.cartTotalPrice, // 商品总价
+        orderTotal: this.cartTotalPrice, // 应付金额
+        shipping: 0, // 运费
+        discount: 0, // 折扣
+        tax: 0 // 税
+      }
+      this.axios.post('/orders', {
+        order
+      }).then((res) => {
+        this.$router.push({
+          path: '/order/pay',
+          query: {
+            order: res._id
+          }
+        })
+      })
     }
   },
   components: {
@@ -398,11 +466,12 @@ export default {
           padding-left:15px;
           border:1px solid #E5E5E5;
           &+.input{
-            margin-left:14px;
+            margin-left:13px;
           }
         }
         select{
           height:40px;
+          width: 100px;
           line-height:40px;
           border:1px solid #E5E5E5;
           margin-right:15px;

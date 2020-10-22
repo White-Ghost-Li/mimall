@@ -21,9 +21,8 @@ module.exports = new mongoose.Schema({
   ],
   orders: [
     {
-      orderId: String,
       createDate: String,
-      orderList: [
+      productList: [
         {
           productId: String,
           productName: String,
@@ -34,10 +33,9 @@ module.exports = new mongoose.Schema({
           productTotalPrice: Number
         }
       ],
-      dressContent: {
+      addressContent: {
         receiverId: String,
         receiverName: String,
-        receiverPhone: String,
         receiverMobile: String,
         receiverProvince: String,
         receiverCity: String,
@@ -46,18 +44,17 @@ module.exports = new mongoose.Schema({
         receiverZip: String,
         idDefault: Boolean
       },
-      subTotal: Number,
-      orderTotal: Number,
-      shipping: Number,
-      discount: Number,
-      tax: Number
+      countTotal: Number, // 总数量
+      subTotal: Number, // 商品总价
+      orderTotal: Number, // 应付金额
+      shipping: Number, // 运费
+      discount: Number, // 折扣
+      tax: Number // 税
     }
   ],
   addressList: [
     {
-      receiverId: String, // ID
       receiverName: String, // 名字
-      receiverPhone: String, // 手机区号
       receiverMobile: String, // 手机号
       receiverProvince: String, // 省份
       receiverCity: String, // 市
