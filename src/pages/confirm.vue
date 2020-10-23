@@ -1,5 +1,10 @@
 <template>
   <div class="confirm">
+    <order-header title="订单确认">
+      <template v-slot:tip>
+        <span>请确保地址为真实有效地址</span>
+      </template>
+    </order-header>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position: absolute; width: 0px; height: 0px; overflow: hidden;">
       <defs>
         <symbol id="icon-add" viewBox="0 0 31 32">
@@ -157,6 +162,7 @@
 
 <script>
 import Modal from '../components/Modal'
+import OrderHeader from '../components/OrderHeader'
 import {mapGetters} from 'vuex'
 export default {
   name: 'confirm',
@@ -282,7 +288,15 @@ export default {
         orderTotal: this.cartTotalPrice, // 应付金额
         shipping: 0, // 运费
         discount: 0, // 折扣
-        tax: 0 // 税
+        tax: 0, // 税
+        status: 10, // 支付状态码
+        statusDesc: '未付款', // 支付状态
+        paymentType: 0, // 支付类型码
+        paymentTypeDesc: '未支付', // 支付类型,0:未支付，1：在线支付
+        paymentTime: '', // 支付时间
+        sendTime: '', // 派送时间
+        endTime: '', // 派送结束时间
+        gotTime: '' // 领取时间
       }
       this.axios.post('/orders', {
         order
@@ -290,14 +304,15 @@ export default {
         this.$router.push({
           path: '/order/pay',
           query: {
-            order: res._id
+            orderId: res._id
           }
         })
       })
     }
   },
   components: {
-    Modal
+    Modal,
+    OrderHeader
   }
 }
 </script>

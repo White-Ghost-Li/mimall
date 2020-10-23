@@ -31,6 +31,9 @@ axios.interceptors.response.use((response) => {
     this.$message.warning(res.message)
     return Promise.reject(res)
   }
+}, (error) => { // 网络异常抛出(接口错误拦截)
+  this.$message.error(error.response.data.message)
+  return Promise.reject(error.response)
 })
 Vue.prototype.$message = Message
 Vue.use(VueAxios, axios)

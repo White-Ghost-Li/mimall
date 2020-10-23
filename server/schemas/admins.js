@@ -49,7 +49,15 @@ module.exports = new mongoose.Schema({
       orderTotal: Number, // 应付金额
       shipping: Number, // 运费
       discount: Number, // 折扣
-      tax: Number // 税
+      tax: Number, // 税
+      status: Number, // 支付状态码
+      statusDesc: String, // 支付状态
+      paymentType: Number, // 支付类型码
+      paymentTypeDesc: String, // 支付类型
+      paymentTime: String, // 支付时间
+      sendTime: String, // 派送时间
+      endTime: String, // 派送结束时间
+      gotTime: String // 领取时间
     }
   ],
   addressList: [

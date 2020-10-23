@@ -394,6 +394,37 @@ router.post('/orders', (req, res) => {
     }
   })
 })
-//
-
+// 订单详情
+router.get('/orders/:orderId', (req, res) => {
+  console.log('进入订单详情')
+  let orderId = req.params.orderId
+  Admin.findOne({
+    'userName': 'L',
+    'orders._id': orderId
+  }).then((admin) => {
+    if (admin) {
+      reqData.data = admin.orders.find(item => item._id.toString() === orderId)
+      res.json(reqData)
+    }
+  })
+})
+// 订单支付
+router.post('/pay', (req, res) => {
+  console.log('进入支付接口')
+  // let orderId = req.body.orderId
+  // let orderName = req.body.orderName
+  // let amount = req.body.amount
+  let payType = req.body.payType
+  if (payType === 1) { // 支付宝支付
+    reqData.data = {
+      content: 'http://' // html源码
+    }
+    res.json(reqData)
+  } else if (payType === 2) { // 微信支付
+    reqData.data = {
+      content: 'LS'
+    }
+    res.json(reqData)
+  }
+})
 module.exports = router

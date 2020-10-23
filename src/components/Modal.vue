@@ -12,7 +12,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn" v-if="isForSave" @click="submit">{{sureBtn}}</button>
-          <button class="btn" v-if="isForClose" @click="closeModal">{{exitBtn}}</button>
+          <button class="btn-default" v-if="isForClose" @click="closeModal">{{exitBtn}}</button>
         </div>
       </div>
     </div>
@@ -106,6 +106,10 @@ export default {
         background-color: #ffffff;
         .btn{
           @include button(110px,30px)
+        }
+        .btn-default{
+          margin-left: 50px;
+          @include button(110px,30px,#999999)
         }
       }
     }
