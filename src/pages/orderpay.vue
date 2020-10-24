@@ -34,7 +34,7 @@
               <div class="detail-info">
                 <ul>
                   <li v-for="(item,index) in orderDetail" :key="index">
-                    <img v-lazy="require(`../assets/imgs/${item.productImage}`)" alt="item.productName">{{item.productName}}
+                    <img v-lazy="require(`../assets/imgs/${item.productImage}`)" :alt="item.productName">{{item.productName}}
                   </li>
                 </ul>
               </div>

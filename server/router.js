@@ -427,4 +427,20 @@ router.post('/pay', (req, res) => {
     res.json(reqData)
   }
 })
+// 获取订单列表
+router.get('/orders', (req, res) => {
+  console.log('进入订单列表')
+  let pageSize = req.query.pageSize
+  Admin.findOne({userName: 'L'}).then((admin) => {
+    if (admin) {
+      let order = []
+      for (let i = 0; i < admin.orders.length; i += pageSize) {
+        order.push(admin.orders.slice(i, i + pageSize))
+      }
+      reqData.data = order
+      res.json(reqData)
+    }
+  })
+})
+
 module.exports = router

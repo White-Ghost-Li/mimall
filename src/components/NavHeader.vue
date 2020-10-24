@@ -22,7 +22,7 @@
           <a href="JavaScript:" v-if="!userName" @click="login">登陆 |</a>
           <a href="JavaScript:" v-if="!userName">注册 |</a>
           <a href="JavaScript:" v-if="userName" @click="logout">退出 |</a>
-          <a href="JavaScript:">消息通知 |</a>
+          <a href="/order/list" v-if="userName">我的订单 |</a>
           <a href="JavaScript:" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cart.length||0}})</a>
         </div>
       </div>

@@ -6,7 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import {Message} from 'element-ui'
+import {Message, Pagination} from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import router from './router'
@@ -38,6 +38,7 @@ axios.interceptors.response.use((response) => {
 Vue.prototype.$message = Message
 Vue.use(VueAxios, axios)
 Vue.use(VueCookie)
+Vue.use(Pagination)
 Vue.use(VueLazyLoad, {
   loading: require('./assets/imgs/loading-svg/loading-spinning-bubbles.svg')
 })
