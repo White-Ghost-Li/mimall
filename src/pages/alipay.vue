@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     paySubmit () {
-      this.axios.post('/pay', {
+      this.axios.post('/user/pay', {
         orderId: this.orderId, // 订单号
         orderName: 'L', // 订单账号名称
         amount: 0.01, // 单位元

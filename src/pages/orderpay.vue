@@ -106,7 +106,7 @@ export default {
       this.$router.push('/order/list')
     },
     getOrderList () {
-      this.axios.get(`/orders/${this.orderId}`).then((res) => {
+      this.axios.get(`/user/orders/${this.orderId}`).then((res) => {
         const address = res.addressContent
         this.addressInfo = `${address.receiverName} ${address.receiverMobile} ${address.receiverProvince} ${address.receiverCity} ${address.receiverDistrict} ${address.receiverAddress}`
         this.orderDetail = res.productList
@@ -118,7 +118,7 @@ export default {
       if (p === 1) { // 支付宝支付
         window.open(`/order/alipay?orderId=${this.orderId}`, '_blank') // 打开新的窗口
       } else if (p === 2) { // 微信支付
-        this.axios.post('/pay', {
+        this.axios.post('/user/pay', {
           orderId: this.orderId, // 订单号
           orderName: 'L', // 订单账号名称
           amount: 0.01, // 单位元
@@ -139,7 +139,7 @@ export default {
     // 订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭
     loopOrderState () {
       this.T = setInterval(() => {
-        this.axios.get(`/orders/${this.orderId}`).then((res) => {
+        this.axios.get(`/user/orders/${this.orderId}`).then((res) => {
           if (res.status === 20) {
             clearInterval(this.T)
           }

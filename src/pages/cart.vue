@@ -84,12 +84,12 @@ export default {
   },
   methods: {
     getCartList () {
-      this.axios.get('/carts').then((res) => {
+      this.axios.get('/user/carts').then((res) => {
         this.renderData(res)
       })
     },
     checkedAll () {
-      this.axios.put('/carts/ifSelect', {
+      this.axios.put('/user/carts/ifSelect', {
         selected: !this.allChecked
       }).then((res) => {
         this.renderData(res)
@@ -117,7 +117,7 @@ export default {
       } else {
         selected = !item.selected
       }
-      this.axios.put(`/carts/${item.productId}`, {
+      this.axios.put(`/user/carts/${item.productId}`, {
         quantity,
         selected
       }).then((res) => {
@@ -125,7 +125,7 @@ export default {
       })
     },
     delProduct (item) {
-      this.axios.delete(`/carts/${item.productId}`).then((res) => {
+      this.axios.delete(`/user/carts/${item.productId}`).then((res) => {
         this.$message.success('删除成功')
         this.renderData(res)
       })

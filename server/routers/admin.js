@@ -1,8 +1,7 @@
-
 const express = require('express')
 const router = express.Router()
-const Admin = require('./models/Admin')
-const Product = require('./models/Product')
+const Admin = require('../models/Admin')
+const Product = require('../models/Product')
 
 let reqData
 router.use((req, res, next) => {
@@ -23,56 +22,8 @@ function getUserInfo (userName, password, res) {
     res.json(reqData)
   })
 }
-function getProductList (str, res) {
-  Product.find({listName: str}).then((product) => {
-    if (product) {
-      const classArr = []
-      for (let i = 0; i < product.length; i++) {
-        let is = false
-        for (let j = 0; j < classArr.length; j++) {
-          if (classArr[j].name === product[i].className) {
-            is = true
-          }
-        }
-        if (!is) {
-          classArr.push({name: product[i].className, children: []})
-        }
-      }
-      for (let i = 0; i < classArr.length; i++) {
-        classArr[i].children = product.filter(item => item.className === classArr[i].name)
-      }
-      reqData.data = classArr
-    } else {
-      reqData.status = 2
-      reqData.message = '网络异常，请重试'
-    }
-    res.json(reqData)
-  })
-}
-// 获取header头部商品列表
-router.get('/product/productHeader', (req, res) => {
-  console.log('进入productHeader')
-  getProductList('productHeader', res)
-})
-// 获取productMenu商品数据
-router.get('/product/productMenu', (req, res) => {
-  console.log('进入productMenu')
-  getProductList('productMenu', res)
-})
-// 获取phoneList商品数据
-router.get('/product/phoneList', (req, res) => {
-  console.log('进入phoneList')
-  getProductList('phoneList', res)
-})
-// 登陆账号
-router.post('/user/login', (req, res) => {
-  console.log('进入login')
-  const userName = req.body.userName || ''
-  const password = req.body.password || ''
-  getUserInfo(userName, password, res)
-})
 // 获取用户信息
-router.get('/user', (req, res) => {
+router.get('/', (req, res) => {
   console.log('进入user')
   if (req.headers.cookie) {
     getUserInfo('L', '123', res)
@@ -81,46 +32,6 @@ router.get('/user', (req, res) => {
     reqData.message = '用户未登录,无法获取当前用户信息'
     res.json(reqData)
   }
-})
-// 注册
-router.post('/user/register', (req, res) => {
-  console.log('进入注册')
-  const userName = req.body.userName
-  const password = req.body.password
-  const email = req.body.email
-  if (userName && password && email) {
-    new Admin({
-      userName,
-      password,
-      email,
-      selectedAll: false
-    }).save((err) => {
-      if (err) {
-        reqData.status = 404
-        reqData.message = '网络异常，请重试'
-      } else {
-        reqData.data = {
-          userName,
-          password,
-          email
-        }
-      }
-      res.json(reqData)
-    })
-  } else {
-    reqData.status = 2
-    reqData.message = '用户信息内容不完整'
-    res.json(reqData)
-  }
-})
-// 获取某件商品详情
-router.get('/products/:id', (req, res) => {
-  console.log('进入products/id')
-  const id = req.params.id
-  Product.findOne({productId: id}).then((product) => {
-    reqData.data = product
-    res.json(reqData)
-  })
 })
 // 加入购物车
 router.post('/carts', (req, res) => {
@@ -227,7 +138,7 @@ router.put('/carts/ifSelect', (req, res) => {
 })
 // 修改选中与否和商品数量
 router.put('/carts/:productId', (req, res) => {
-  console.log('进入putcarts')
+  console.log('进入修改carts')
   let productId = req.params.productId
   let quantity = req.body.quantity
   let selected = req.body.selected
@@ -278,13 +189,6 @@ router.delete('/carts/:productId', (req, res) => {
       })
     }
   })
-})
-// 退出
-router.get('/logout', (req, res) => {
-  console.log('退出')
-  console.log('清理session会话信息')
-  reqData.message = '已经退出'
-  res.json(reqData)
 })
 // 获取地址列表
 router.get('/shipping', (req, res) => {

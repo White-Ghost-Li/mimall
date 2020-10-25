@@ -43,16 +43,10 @@
               </div>
             </div>
           </div>
-          <el-pagination
-            class="pagination"
-            background
-            layout="prev,pager,next"
-            :hide-on-single-page="false"
-            :page-size="pageSize"
-            :total="total"
-            @current-change="currentChange">
-          </el-pagination>
-          <no-data v-if="!loading&&list.length===0"></no-data>
+          <div class="loading_button" v-if="this.pageNum < this.orders.length">
+            <el-button type="primary" :loading="loadMore" @click="goMore">加载中</el-button>
+          </div>
+          <no-data v-if="!loading&&orders.length===0"></no-data>
         </div>
       </div>
     </div>
@@ -69,10 +63,10 @@ export default {
     return {
       list: [], // 订单列表
       loading: true,
-      total: 0, // 总页数
       pageNum: 1, // 当前页
       orders: [],
-      pageSize: 10
+      pageSize: 10,
+      loadMore: false
     }
   },
   components: {
@@ -85,15 +79,12 @@ export default {
   },
   methods: {
     getOrderList () {
-      this.axios.get('/orders', {
-        params: {
-          pageSize: this.pageSize
-        }
-      }).then((res) => {
+      this.axios.get('/user/orders').then((res) => {
         this.loading = false
-        this.orders = res
-        this.list = res[this.pageNum - 1]
-        this.total = this.orders.length
+        for (let i = 0; i < res.length; i += this.pageSize) {
+          this.orders.push(res.slice(i, i + this.pageSize))
+        }
+        this.list = this.orders[0]
       })
     },
     goPay (order) {
@@ -106,9 +97,11 @@ export default {
         })
       }
     },
-    currentChange (pageNum) {
-      this.pageNum = pageNum
-      this.list = this.orders[this.pageNum - 1]
+    goMore () {
+      this.loadMore = true
+      this.pageNum += 1
+      this.list = this.list.concat(this.orders[this.pageNum - 1])
+      this.loadMore = false
     }
   }
 }
@@ -184,6 +177,10 @@ export default {
       }
       .el-pagination.is-background .el-pager li:not(.disabled).active{
         background-color: #FF6600;
+      }
+      .loading_button{
+        cursor: pointer;
+        text-align: center;
       }
     }
   }

@@ -195,7 +195,7 @@ export default {
   },
   methods: {
     getAddressList () {
-      this.axios.get('/shipping').then((res) => {
+      this.axios.get('/user/shipping').then((res) => {
         if (res) {
           this.list = res
           this.checkedAddress = this.list.find(item => item.isDefault)
@@ -203,7 +203,7 @@ export default {
       })
     },
     getCartInvoicing () {
-      this.axios.get('/carts').then((res) => {
+      this.axios.get('/user/carts').then((res) => {
         this.$store.dispatch('saveCart', res.cartList)
         this.cartInvoicing = res.cartList.filter(item => item.selected)
       })
@@ -228,13 +228,13 @@ export default {
       let address = {}
       if (userAction === '0') { // 新增
         method = 'post'
-        url = '/shipping'
+        url = '/user/shipping'
       } else if (userAction === '1') { // 编辑
         method = 'put'
-        url = `/shipping/${checkedItem._id}`
+        url = `/user/shipping/${checkedItem._id}`
       } else if (userAction === '2') { // 删除
         method = 'delete'
-        url = `/shipping/${checkedItem._id}`
+        url = `/user/shipping/${checkedItem._id}`
       }
       if (userAction === '0' || userAction === '1') {
         if (!receiverName || !receiverMobile || !/^1\d{10}$/.test(receiverMobile) || !receiverProvince || !receiverCity || !receiverDistrict || !receiverAddress || !receiverZip || !/^\d{6}$/.test(receiverZip)) {
@@ -298,7 +298,7 @@ export default {
         endTime: '', // 派送结束时间
         gotTime: '' // 领取时间
       }
-      this.axios.post('/orders', {
+      this.axios.post('/user/orders', {
         order
       }).then((res) => {
         this.$router.push({

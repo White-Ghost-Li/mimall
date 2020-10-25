@@ -6,8 +6,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import {Message, Pagination} from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
+import {Message, Pagination, Button} from 'element-ui'
+import infiniteScroll from 'vue-infinite-scroll'
 import store from './store'
 import router from './router'
 
@@ -21,12 +21,8 @@ axios.interceptors.response.use((response) => {
   if (res.status === 0) {
     return res.data
   } else if (res.status === 10) {
-    const path = location.pathname
-    const pathUrl = path.split('/')[1]
-    if (pathUrl !== 'login' && pathUrl !== 'index' && pathUrl !== 'detail' && pathUrl !== 'product') {
-      window.location.href = '/login'
-      return Promise.reject(res)
-    }
+    window.location.href = '/login'
+    return Promise.reject(res)
   } else {
     this.$message.warning(res.message)
     return Promise.reject(res)
@@ -39,6 +35,8 @@ Vue.prototype.$message = Message
 Vue.use(VueAxios, axios)
 Vue.use(VueCookie)
 Vue.use(Pagination)
+Vue.use(Button)
+Vue.use(infiniteScroll)
 Vue.use(VueLazyLoad, {
   loading: require('./assets/imgs/loading-svg/loading-spinning-bubbles.svg')
 })

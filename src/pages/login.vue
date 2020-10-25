@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="container">
-      <a href="/index">
+      <a href="/">
         <img v-lazy="require('../assets/imgs/login-logo.png')" alt="首页">
       </a>
     </div>
@@ -44,10 +44,15 @@ export default {
       usrId: ''
     }
   },
+  mounted () {
+    if (this.$cookie.get('userInfo')) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     login () {
       let {userName, password} = this
-      this.axios.post('/user/login', {
+      this.axios.post('/login', {
         userName,
         password
       }).then((res) => {
@@ -58,14 +63,14 @@ export default {
       })
     },
     register () {
-      this.axios.post('/user/register', {
+      this.axios.post('/register', {
         userName: 'L',
         password: '123',
         email: 'root@163.com'
       }).then((res) => {
         this.userName = res.userName
         this.password = res.password
-        alert('注册成功')
+        this.$message.success('注册成功')
       })
     }
   },

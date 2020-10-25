@@ -1,16 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// 路由全加载
 import Home from '@/pages/Home'
-import Product from '@/pages/product'
 import Index from '@/pages/index'
-import Login from '@/pages/login'
-import Detail from '@/pages/detail'
-import Cart from '@/pages/cart'
-import Order from '@/pages/order'
-import List from '@/pages/list'
-import OrderPay from '@/pages/orderpay'
-import Confirm from '@/pages/confirm'
-import AliPay from '@/pages/alipay'
+// import Product from '@/pages/product'
+// import Login from '@/pages/login'
+// import Detail from '@/pages/detail'
+// import Cart from '@/pages/cart'
+// import Order from '@/pages/order'
+// import List from '@/pages/list_pagination'
+// import List from '@/pages/list_button'
+// import List from '@/pages/list_scroll'
+// import OrderPay from '@/pages/orderpay'
+// import Confirm from '@/pages/confirm'
+// import AliPay from '@/pages/alipay'
+
+// 路由懒加载
+const Product = () => import('@/pages/product')
+const Detail = () => import('@/pages/detail')
+const Login = () => import('@/pages/login')
+const Cart = () => import('@/pages/cart')
+const Order = () => import('@/pages/order')
+const List = () => import('@/pages/list_pagination')
+const OrderPay = () => import('@/pages/orderpay')
+const AliPay = () => import('@/pages/alipay')
+const Confirm = () => import('@/pages/confirm')
 
 Vue.use(Router)
 
@@ -32,10 +47,13 @@ export default new Router({
           path: 'product/:id',
           name: 'Product',
           component: Product
+          // 路由懒加载方法1
+          // component: resolve => require(['@/pages/product.vue'], resolve)
         },
         {
           path: 'detail/:id',
           name: 'Detail',
+          // 路由懒加载方法2
           component: Detail
         }
       ]
